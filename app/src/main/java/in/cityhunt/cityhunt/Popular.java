@@ -39,7 +39,7 @@ public class Popular extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("resp",response);
+                Log.e("response",response);
             }
         }, new Response.ErrorListener() {
             @Override
