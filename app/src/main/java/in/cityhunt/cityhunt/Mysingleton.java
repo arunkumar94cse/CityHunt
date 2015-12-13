@@ -25,7 +25,6 @@ public class Mysingleton {
 
                     @Override
                     public Bitmap getBitmap(String url) {
-                        Log.e("cache","cache");
                         return cache.getBitmap(url);
                     }
 
