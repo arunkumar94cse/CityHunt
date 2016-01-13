@@ -21,14 +21,6 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabTextColor="#71ffffff"
-            app:tabSelectedTextColor="#FFFFFF"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -42,5 +34,32 @@
         fab:fab_addButtonColorNormal="@color/colorPrimaryDark"
         fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
         fab:fab_addButtonPlusIconColor="#FFFFFF"
-        android:layout_gravity="bottom|end"/>
+        fab:fab_labelStyle="@style/menu_labels_style"
+        android:layout_gravity="bottom|end">
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Add an event"
+            app:fab_icon="@drawable/ic_note_add_black_48dp"
+            fab:fab_colorPressed="@color/colorPrimary"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/events_calender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Events Calender"
+            app:fab_icon="@drawable/ic_date_range_black_48dp"
+            fab:fab_colorPressed="@color/colorPrimary"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/nearby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            app:fab_icon="@drawable/ic_near_me_black_48dp"
+            fab:fab_title="Nearby Events"
+            fab:fab_colorPressed="@color/colorPrimary"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </android.support.design.widget.CoordinatorLayout>

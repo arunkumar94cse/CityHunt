@@ -109,6 +109,11 @@ public class EventStorage extends SQLiteOpenHelper {
         String SELECT_QUERY = "SELECT * FROM " + TABLE_NAME+";";
         return db.rawQuery(SELECT_QUERY, null);
     }
+    public Cursor getEvent(String id){
+        SQLiteDatabase db = getWritableDatabase();
+        String SELECT_QUERY = "SELECT * FROM "+ TABLE_NAME+" WHERE "+EVENT_ID+" LIKE '"+id+"';";
+        return db.rawQuery(SELECT_QUERY, null);
+    }
     public void clear(){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("delete from "+ TABLE_NAME);

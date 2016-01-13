@@ -1,13 +1,12 @@
 package in.cityhunt.cityhunt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,13 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String url = "http://cityhunt.in/cityhunt/events/getEventsList";
-    EventStorage storage;
+    private EventStorage storage;
+    private Fragment fragment;
+    private String title = "City Hunt";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +38,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         storage = new EventStorage(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         setSupportActionBar(toolbar);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        findViewById(R.id.events_calender).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Calender.class));
+            }
+        });
+        findViewById(R.id.nearby).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NearBy.class));
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,Utilities.HOME_URL+"events/getEventsList", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("response", response);
@@ -59,37 +78,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
                                 object.getString("event_poster"),object.getString("event_organizer"),object.getString("created_date"));
                     }
-                    setupViewPager(viewPager);
-                    tabLayout.setupWithViewPager(viewPager);
-                    viewPager.setCurrentItem(1);
+                    fragment = new Popular();
+                    showFragment();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                findViewById(R.id.loader).setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("resp",error.getMessage());
+                fragment = new Popular();
+                showFragment();
+                findViewById(R.id.loader).setVisibility(View.INVISIBLE);
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
         Mysingleton.getInstance(this).addToRequestQueue(stringRequest);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Popular(), "ONE");
-        adapter.addFragment(new Popular(), "POPULAR");
-        adapter.addFragment(new Popular(), "THREE");
-        viewPager.setAdapter(adapter);
     }
 
 
@@ -128,14 +133,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.home) {
+            fragment = new Popular();
+            title = "City Hunt";
+        } else if (id == R.id.profile) {
+            fragment = new Profile();
+            title = "Profile";
+        } else if (id == R.id.favourite) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -144,37 +151,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_send) {
 
         }
-
+        showFragment();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+    private void showFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_body, fragment);
+        fragmentTransaction.commit();
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(title);
     }
 }

@@ -1,6 +1,7 @@
 package in.cityhunt.cityhunt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,9 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
 
     private List<Data> datas;
     private Context context;
+    public static final String ID = "event_id";
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView poster;
         private TextView name,city,start_date,id;
@@ -33,10 +35,17 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
             this.name = (TextView)v.findViewById(R.id.title);
             this.start_date = (TextView)v.findViewById(R.id.date);
             this.city = (TextView)v.findViewById(R.id.city);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context,EventDetails.class).putExtra(ID,id.getText().toString()));
+                }
+            });
         }
     }
 
     public CustomListAdapter(List<Data> datas,Context context) {
+        super();
         this.datas = datas;
         this.context = context;
     }
@@ -64,7 +73,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
         }
         ImageLoader mImageLoader = Mysingleton.getInstance(context).getImageLoader();
         mImageLoader.get(Utilities.HOME_URL + data.getPoster_url(),
-                ImageLoader.getImageListener(holder.poster, R.drawable.posternew, R.drawable.posternew));
+                ImageLoader.getImageListener(holder.poster, R.drawable.background, R.drawable.background));
     }
 
     @Override
