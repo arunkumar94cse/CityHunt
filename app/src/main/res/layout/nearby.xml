@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    tools:context="in.cityhunt.cityhunt.NearBy">
+
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:fillViewport="true">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="start"
+            android:gravity="center_horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/all"
+                android:drawableTop="@drawable/radiobutton_background"
+                android:gravity="center_horizontal"
+                android:textColor="#888888"
+                android:text="All"
+                android:layout_weight="1"
+                android:paddingLeft="30dp"
+                android:paddingRight="20dp"
+                android:checked="true" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/fest"
+                android:drawableTop="@drawable/radiobutton_background"
+                android:gravity="center_horizontal"
+                android:textColor="#888888"
+                android:text="Fest"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/entertainment"
+                android:textColor="#888888"
+                android:drawableTop="@drawable/radiobutton_background"
+                android:gravity="center_horizontal"
+                android:text="Entertainment"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/sports"
+                android:textColor="#888888"
+                android:drawableTop="@drawable/radiobutton_background"
+                android:gravity="center_horizontal"
+                android:text="Sports"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:id="@+id/socials"
+                android:textColor="#888888"
+                android:drawableTop="@drawable/radiobutton_background"
+                android:gravity="center_horizontal"
+                android:text="Socials"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp" />
+        </RadioGroup>
+
+        </HorizontalScrollView>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/activity_near_by" />
+
+</android.support.design.widget.CoordinatorLayout>

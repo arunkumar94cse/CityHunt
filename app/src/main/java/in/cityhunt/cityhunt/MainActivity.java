@@ -55,45 +55,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this,
+                drawer,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,Utilities.HOME_URL+"events/getEventsList", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("response", response);
-                storage.clear();
-                try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i=0; i < array.length(); i++){
-                        JSONObject object = array.getJSONObject(i);
-                        storage.insert(object.getInt("event_id"),object.getString("event_name"),object.getString("event_state"),
-                                object.getString("event_city"),object.getString("event_venue"),object.getInt("event_type"),
-                                object.getString("event_description"),object.getString("event_fb"),object.getString("event_url"),
-                                object.getString("event_contact_person"),object.getString("event_cantact_email"),object.getString("event_contact_num"),
-                                object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
-                                object.getString("event_poster"),object.getString("event_organizer"),object.getString("created_date"));
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                Utilities.HOME_URL+"events/getEventsList",
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("response", response);
+                        storage.clear();
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            for (int i=0; i < array.length(); i++){
+                                JSONObject object = array.getJSONObject(i);
+                                storage.insert(object.getInt("event_id"),object.getString("event_name"),object.getString("event_state"),
+                                        object.getString("event_city"),object.getString("event_venue"),object.getInt("event_type"),
+                                        object.getString("event_description"),object.getString("event_fb"),object.getString("event_url"),
+                                        object.getString("event_contact_person"),object.getString("event_cantact_email"),object.getString("event_contact_num"),
+                                        object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
+                                        object.getString("event_poster"),object.getString("event_organizer"),object.getString("created_date"));
+                            }
+                            fragment = new Popular();
+                            showFragment();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        findViewById(R.id.multiple_actions).setVisibility(View.VISIBLE);
+                        findViewById(R.id.loader).setVisibility(View.INVISIBLE);
                     }
-                    fragment = new Popular();
-                    showFragment();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("resp",error.getMessage());
+                        fragment = new Popular();
+                        showFragment();
+                        findViewById(R.id.loader).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.multiple_actions).setVisibility(View.VISIBLE);
+                    }
                 }
-                findViewById(R.id.loader).setVisibility(View.INVISIBLE);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("resp",error.getMessage());
-                fragment = new Popular();
-                showFragment();
-                findViewById(R.id.loader).setVisibility(View.INVISIBLE);
-            }
-        });
+        );
         Mysingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
@@ -110,19 +123,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.search) {
             return true;
         }

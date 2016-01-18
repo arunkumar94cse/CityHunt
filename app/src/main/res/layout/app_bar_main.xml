@@ -35,7 +35,8 @@
         fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
         fab:fab_addButtonPlusIconColor="#FFFFFF"
         fab:fab_labelStyle="@style/menu_labels_style"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible">
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_event"
             android:layout_width="wrap_content"
