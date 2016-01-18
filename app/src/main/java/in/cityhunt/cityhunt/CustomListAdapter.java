@@ -63,7 +63,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
         holder.name.setText(data.getName());
         holder.city.setText(data.getCity());
         holder.id.setText(String.valueOf(data.getId()));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS", Locale.ENGLISH);
         SimpleDateFormat newformat = new SimpleDateFormat("MMM''dd", Locale.ENGLISH);
         try {
             Date date = format.parse(data.getStart_date());

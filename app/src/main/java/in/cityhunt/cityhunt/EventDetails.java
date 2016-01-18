@@ -55,7 +55,7 @@ public class EventDetails extends AppCompatActivity {
         location.setText(cursor.getString(4) + ", " + cursor.getString(3));
         TextView description = (TextView)findViewById(R.id.description);
         description.setText(cursor.getString(6));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS", Locale.ENGLISH);
         SimpleDateFormat newformat = new SimpleDateFormat("MMM''dd", Locale.ENGLISH);
         try {
             Date dateobj = format.parse(cursor.getString(14));
