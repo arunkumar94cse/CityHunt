@@ -1,20 +1,16 @@
 package in.cityhunt.cityhunt;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,11 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private EventStorage storage;
-    private Fragment fragment;
-    private String title = "City Hunt";
+    private int[] tabIcons = {
+            R.drawable.theater18,
+            R.drawable.four45,
+            R.drawable.weekly7,
+            R.drawable.stickman218
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +40,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.events_calender).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Calender.class));
-            }
-        });
-        findViewById(R.id.nearby).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NearBy.class));
-            }
-        });
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                drawer,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        // Set up the ViewPager with the sections adapter.
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -87,37 +74,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
                                         object.getString("event_poster"),object.getString("event_organizer"),object.getString("created_date"));
                             }
-                            fragment = new Popular();
-                            showFragment();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        findViewById(R.id.multiple_actions).setVisibility(View.VISIBLE);
-                        findViewById(R.id.loader).setVisibility(View.INVISIBLE);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("resp",error.getMessage());
-                        fragment = new Popular();
-                        showFragment();
-                        findViewById(R.id.loader).setVisibility(View.INVISIBLE);
-                        findViewById(R.id.multiple_actions).setVisibility(View.VISIBLE);
                     }
                 }
         );
         Mysingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0:
+                    return new Popular();
+                case 1:
+                    return new categories();
+                case 2:
+                    return new Calendar();
+                case 3:
+                    return new User_profile();
+            }
+            return new Popular();
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 4;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "";
+                case 1:
+                    return "";
+                case 2:
+                    return "";
+                case 3:
+                    return "";
+            }
+            return null;
         }
     }
 
@@ -136,40 +146,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.home) {
-            fragment = new Popular();
-            title = "City Hunt";
-        } else if (id == R.id.profile) {
-            fragment = new Profile();
-            title = "Profile";
-        } else if (id == R.id.favourite) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-        showFragment();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    private void showFragment(){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, fragment);
-        fragmentTransaction.commit();
-        if (getSupportActionBar()!=null)
-            getSupportActionBar().setTitle(title);
     }
 }

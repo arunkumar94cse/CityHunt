@@ -1,12 +1,14 @@
 package in.cityhunt.cityhunt;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,7 +19,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NearBy extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class NearBy extends AppCompatActivity implements OnMapReadyCallback, CompoundButton.OnCheckedChangeListener {
 
     private GoogleMap mMap;
     private EventStorage storage;
@@ -39,35 +41,36 @@ public class NearBy extends AppCompatActivity implements OnMapReadyCallback, Vie
         sports = (RadioButton)findViewById(R.id.sports);
         socials = (RadioButton)findViewById(R.id.socials);
         entertainment = (RadioButton)findViewById(R.id.entertainment);
-        all.setOnClickListener(this);
+        all.setOnCheckedChangeListener(this);
+        fest.setOnCheckedChangeListener(this);
+        sports.setOnCheckedChangeListener(this);
+        socials.setOnCheckedChangeListener(this);
+        entertainment.setOnCheckedChangeListener(this);
         storage = new EventStorage(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.all:
-                mMap.clear();
-                cursor = storage.getData();
-                showMarker(cursor);
-                break;
-            case R.id.fest:break;
-            case R.id.sports:break;
-            case R.id.socials:break;
-            case R.id.entertainment:break;
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked){
+            buttonView.setTextColor(Color.parseColor("#FFFFFF"));
+        }else{
+            buttonView.setTextColor(Color.parseColor("#888888"));
         }
     }
+
+
 
     public void showMarker(Cursor cursor){
         cursor.moveToFirst();
         LatLng latLng;
         for (int i=0;i<cursor.getCount();i++){
             latLng = new LatLng(cursor.getDouble(12),cursor.getDouble(13));
+
             mMap.addMarker(new MarkerOptions().position(latLng).title(cursor.getString(1)).icon(BitmapDescriptorFactory.fromResource(R.drawable.fests)));
             if (i == cursor.getCount()-1)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
             cursor.moveToNext();
         }
     }
@@ -75,7 +78,7 @@ public class NearBy extends AppCompatActivity implements OnMapReadyCallback, Vie
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        cursor = storage.getData();
+        cursor = storage.getDataRecent();
         showMarker(cursor);
     }
 

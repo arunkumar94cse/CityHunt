@@ -104,9 +104,9 @@ public class EventStorage extends SQLiteOpenHelper {
             Log.d("event_table", "insert(): rowId=" + rowId);
         }
     }
-    public Cursor getData(){
+    public Cursor getDataRecent(){
         SQLiteDatabase db = getWritableDatabase();
-        String SELECT_QUERY = "SELECT * FROM " + TABLE_NAME+";";
+        String SELECT_QUERY = "SELECT * FROM " + TABLE_NAME+" ORDER BY " + CREATED_DATE + " DESC;";
         return db.rawQuery(SELECT_QUERY, null);
     }
     public Cursor getEvent(String id){

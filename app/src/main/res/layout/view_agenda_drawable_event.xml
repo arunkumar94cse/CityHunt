@@ -14,7 +14,8 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView android:id="@+id/view_agenda_event_image" android:layout_width="match_parent"
+        <ImageView android:id="@+id/view_agenda_event_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -42,8 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:textColor="@color/calendar_text_default"
-                android:textSize="11dp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
 

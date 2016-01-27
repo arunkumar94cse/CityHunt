@@ -1,0 +1,175 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.cityhunt.cityhunt.categories">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/nearby"
+        android:drawableTop="@drawable/location_nearby"
+        android:drawablePadding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neaby Events"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/nearby"
+        android:layout_height="10dp"
+        android:background="#EEEEEE"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nearby"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tableLayout">
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Education"
+                android:drawableTop="@drawable/education"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Business"
+                android:drawableTop="@drawable/business"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Sports"
+                android:drawableTop="@drawable/sports"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#EEEEEE"
+            android:layout_below="@+id/tableLayout" />
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Culturals"
+                android:drawableTop="@drawable/culturals"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Entertainment"
+                android:drawableTop="@drawable/entertainment"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Parties"
+                android:drawableTop="@drawable/parties"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#EEEEEE"
+        android:layout_below="@+id/tableLayout"
+        android:id="@+id/tableLayout2" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/popular_details"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:drawableRight="@drawable/heart"
+        android:drawableEnd="@drawable/heart"
+        android:text="Popular Events"
+        android:padding="10dp"
+        android:layout_below="@+id/tableLayout2" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#EEEEEE"
+        android:layout_below="@+id/popular_details"
+        android:id="@+id/view1" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/trending"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:drawableRight="@drawable/star"
+        android:text="Trending Events"
+        android:padding="10dp"
+        android:layout_below="@+id/view1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#EEEEEE"
+        android:layout_below="@+id/trending"
+        android:id="@+id/view2" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

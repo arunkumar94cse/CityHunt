@@ -23,9 +23,10 @@ public class Popular extends Fragment {
 
         List<Data> datas = new ArrayList<>();
 
-        Cursor cursor = storage.getData();
+        Cursor cursor = storage.getDataRecent();
 
         cursor.moveToFirst();
+
         for (int i=0;i<cursor.getCount();i++){
             Data data = new Data();
             data.setId(cursor.getInt(0));

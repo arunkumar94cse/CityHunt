@@ -3,7 +3,9 @@ package in.cityhunt.cityhunt;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +57,7 @@ public class EventDetails extends AppCompatActivity {
         location.setText(cursor.getString(4) + ", " + cursor.getString(3));
         TextView description = (TextView)findViewById(R.id.description);
         description.setText(cursor.getString(6));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         SimpleDateFormat newformat = new SimpleDateFormat("MMM''dd", Locale.ENGLISH);
         try {
             Date dateobj = format.parse(cursor.getString(14));
