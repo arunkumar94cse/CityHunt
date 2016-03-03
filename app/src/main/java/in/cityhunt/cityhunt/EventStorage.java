@@ -30,7 +30,6 @@ public class EventStorage extends SQLiteOpenHelper {
     public static final String EVENT_START = "event_start";
     public static final String EVENT_END = "event_end";
     public static final String EVENT_POSTER = "event_poster";
-    public static final String EVENT_ORG = "event_organizer";
     public static final String CREATED_DATE = "created_date";
     private static final String TABLE_MESSAGE_CREATE = "CREATE TABLE " + TABLE_NAME +  " ("
             + EVENT_ID + " INTEGER, "
@@ -38,7 +37,7 @@ public class EventStorage extends SQLiteOpenHelper {
             + EVENT_STATE + " VARCHAR(255), "
             + EVENT_CITY + " VARCHAR(255), "
             + EVENT_VENUE + " VARCHAR(255), "
-            + EVENT_TYPE + " INTEGER, "
+            + EVENT_TYPE + " VARCHAR(255), "
             + EVENT_DESCRIPTION + " VARCHAR(255), "
             + EVENT_FB + " VARCHAR(255), "
             + EVENT_URL + " VARCHAR(255), "
@@ -50,7 +49,6 @@ public class EventStorage extends SQLiteOpenHelper {
             + EVENT_START + " DATETIME, "
             + EVENT_END + " DATETIME, "
             + EVENT_POSTER + " VARCHAR(255), "
-            + EVENT_ORG + " VARCHAR(255), "
             + CREATED_DATE + " DATETIME);";
 
     private static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -70,9 +68,9 @@ public class EventStorage extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insert(int id,String name,String state,String city,String venue,int type,
+    public void insert(int id,String name,String state,String city,String venue,String type,
                        String description,String fb,String url,String person, String email,String num,
-                       double latitude,double longitude,String start,String end,String poster,String org,String created_date){
+                       double latitude,double longitude,String start,String end,String poster,String created_date){
         long rowId = -1;
         try{
             SQLiteDatabase db = getWritableDatabase();
@@ -94,7 +92,6 @@ public class EventStorage extends SQLiteOpenHelper {
             values.put(EVENT_START, start);
             values.put(EVENT_END, end);
             values.put(EVENT_POSTER, poster);
-            values.put(EVENT_ORG, org);
             values.put(CREATED_DATE, created_date);
             rowId = db.insert(TABLE_NAME, null, values);
 
@@ -107,6 +104,11 @@ public class EventStorage extends SQLiteOpenHelper {
     public Cursor getDataRecent(){
         SQLiteDatabase db = getWritableDatabase();
         String SELECT_QUERY = "SELECT * FROM " + TABLE_NAME+" ORDER BY " + CREATED_DATE + " DESC;";
+        return db.rawQuery(SELECT_QUERY, null);
+    }
+    public Cursor getCategoryEvents(String type){
+        SQLiteDatabase db = getWritableDatabase();
+        String SELECT_QUERY = "SELECT * FROM "+ TABLE_NAME+" WHERE "+EVENT_TYPE+" LIKE '"+type+"' ORDER BY "+ CREATED_DATE + " DESC;";
         return db.rawQuery(SELECT_QUERY, null);
     }
     public Cursor getEvent(String id){

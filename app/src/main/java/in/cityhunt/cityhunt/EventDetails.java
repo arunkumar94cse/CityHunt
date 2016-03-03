@@ -3,9 +3,7 @@ package in.cityhunt.cityhunt;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +33,7 @@ public class EventDetails extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        TextView title = (TextView) findViewById(R.id.title);
         TextView location = (TextView) findViewById(R.id.venue);
         TextView date = (TextView) findViewById(R.id.date);
         final ImageView poster = (ImageView) findViewById(R.id.bgheader);
@@ -51,6 +50,7 @@ public class EventDetails extends AppCompatActivity {
         Cursor cursor = storage.getEvent(id);
         cursor.moveToFirst();
         getSupportActionBar().setTitle(cursor.getString(1));
+        title.setText(cursor.getString(1));
         ImageLoader mImageLoader = Mysingleton.getInstance(this).getImageLoader();
         mImageLoader.get(Utilities.HOME_URL + cursor.getString(16),
                 ImageLoader.getImageListener(poster, R.drawable.background, R.drawable.background));

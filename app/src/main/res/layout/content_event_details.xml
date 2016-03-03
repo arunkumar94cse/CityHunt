@@ -11,51 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/bgheader"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background"
-            android:contentDescription="@string/poster" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#7b000000"
-            android:layout_alignBottom="@+id/bgheader">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="Map"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="#FFFFFF" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="Map"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="#FFFFFF" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="Map"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="#FFFFFF" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="Map"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

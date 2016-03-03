@@ -27,6 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Poster" />
         <activity android:name=".Calender" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -34,8 +35,12 @@
         <activity
             android:name=".NearBy"
             android:label="@string/title_activity_near_by"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Filters" />
+        <activity
+            android:name=".Category_Events"
+            android:label="@string/title_activity_category__events"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

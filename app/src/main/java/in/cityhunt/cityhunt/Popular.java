@@ -1,5 +1,6 @@
 package in.cityhunt.cityhunt;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,13 @@ public class Popular extends Fragment {
             cursor.moveToNext();
         }
 
+        layout.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(),Filters.class),1);
+            }
+        });
+
         RecyclerView popular_list = (RecyclerView) layout.findViewById(R.id.popular_view);
         popular_list.setHasFixedSize(true);
 
@@ -47,5 +55,10 @@ public class Popular extends Fragment {
         RecyclerView.Adapter mAdapter = new CustomListAdapter(datas,getActivity());
         popular_list.setAdapter(mAdapter);
         return layout;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

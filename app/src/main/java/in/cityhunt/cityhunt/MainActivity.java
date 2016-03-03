@@ -12,10 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,38 +53,34 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                Utilities.HOME_URL+"events/getEventsList",
-                new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("response", response);
-                        storage.clear();
-                        try {
-                            JSONArray array = new JSONArray(response);
-                            for (int i=0; i < array.length(); i++){
-                                JSONObject object = array.getJSONObject(i);
-                                storage.insert(object.getInt("event_id"),object.getString("event_name"),object.getString("event_state"),
-                                        object.getString("event_city"),object.getString("event_venue"),object.getInt("event_type"),
-                                        object.getString("event_description"),object.getString("event_fb"),object.getString("event_url"),
-                                        object.getString("event_contact_person"),object.getString("event_cantact_email"),object.getString("event_contact_num"),
-                                        object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
-                                        object.getString("event_poster"),object.getString("event_organizer"),object.getString("created_date"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Utilities.API_HOME_URL + "events/getEvents", null,
+                new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("response", String.valueOf(response));
+                storage.clear();
+                try {
+                    JSONArray array = response.getJSONArray("response");
+                    for (int i=0; i < array.length(); i++){
+                        JSONObject object = array.getJSONObject(i);
+                        storage.insert(object.getInt("event_id"),object.getString("event_name"),object.getString("event_state"),
+                                object.getString("event_city"),object.getString("event_venue"),object.getString("event_type"),
+                                object.getString("event_description"),object.getString("event_fb"),object.getString("event_url"),
+                                object.getString("event_contact_person"),object.getString("event_cantact_email"),object.getString("event_contact_num"),
+                                object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
+                                object.getString("event_poster"),object.getString("created_date"));
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-        );
-        Mysingleton.getInstance(this).addToRequestQueue(stringRequest);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Mysingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

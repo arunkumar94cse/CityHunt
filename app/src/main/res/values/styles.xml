@@ -10,8 +10,7 @@
     </style>
 
     <style name="titleText" parent="android:TextAppearance">
-        <item name="android:textSize">30sp</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@android:color/transparent</item>
     </style>
 
     <style name="menu_labels_style">
