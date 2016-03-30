@@ -1,4 +1,4 @@
-package in.cityhunt.cityhunt;
+package in.cityhunt.cityhunt.datas;
 
 import android.content.ContentValues;
 import android.content.Context;

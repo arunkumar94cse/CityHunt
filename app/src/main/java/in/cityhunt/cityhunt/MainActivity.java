@@ -8,21 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class MainActivity extends AppCompatActivity {
 
-    private EventStorage storage;
     private int[] tabIcons = {
             R.drawable.theater18,
             R.drawable.four45,
@@ -35,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        storage = new EventStorage(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*if(getSupportActionBar() != null){
+            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        }*/
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -52,35 +44,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Utilities.API_HOME_URL + "events/getEvents", null,
-                new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e("response", String.valueOf(response));
-                storage.clear();
-                try {
-                    JSONArray array = response.getJSONArray("response");
-                    for (int i=0; i < array.length(); i++){
-                        JSONObject object = array.getJSONObject(i);
-                        storage.insert(object.getInt("event_id"),object.getString("event_name"),object.getString("event_state"),
-                                object.getString("event_city"),object.getString("event_venue"),object.getString("event_type"),
-                                object.getString("event_description"),object.getString("event_fb"),object.getString("event_url"),
-                                object.getString("event_contact_person"),object.getString("event_cantact_email"),object.getString("event_contact_num"),
-                                object.getDouble("event_latitude"),object.getDouble("event_longitude"),object.getString("event_start"),object.getString("event_end"),
-                                object.getString("event_poster"),object.getString("created_date"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        Mysingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -99,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return new Calendar();
                 case 3:
-                    return new User_profile();
+                    return new Profile();
             }
             return new Popular();
         }
@@ -136,10 +99,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.search) {
-            return true;
-        }
+        return id == R.id.search || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 }

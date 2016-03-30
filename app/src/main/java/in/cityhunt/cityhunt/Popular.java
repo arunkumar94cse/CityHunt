@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.cityhunt.cityhunt.datas.EventStorage;
+
 public class Popular extends Fragment {
 
     @Override

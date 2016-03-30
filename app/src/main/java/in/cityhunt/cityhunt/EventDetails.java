@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import in.cityhunt.cityhunt.datas.EventStorage;
+
 public class EventDetails extends AppCompatActivity {
 
     public static final String bitmapString = "poster_bitmap";
@@ -37,6 +39,7 @@ public class EventDetails extends AppCompatActivity {
         TextView location = (TextView) findViewById(R.id.venue);
         TextView date = (TextView) findViewById(R.id.date);
         final ImageView poster = (ImageView) findViewById(R.id.bgheader);
+        assert poster != null;
         poster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

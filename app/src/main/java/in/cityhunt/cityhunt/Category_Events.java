@@ -14,6 +14,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.cityhunt.cityhunt.datas.EventStorage;
+
 public class Category_Events extends AppCompatActivity {
 
     EventStorage storage;
