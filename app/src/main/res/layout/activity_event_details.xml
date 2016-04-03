@@ -65,39 +65,34 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/phone"
-                        android:drawablePadding="10dp"
-                        android:text="Call"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:textColor="#FFFFFF" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/phone"
+                        android:drawableTop="@android:drawable/ic_dialog_map"
                         android:drawablePadding="10dp"
                         android:text="Map"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:id="@+id/map" />
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/phone"
+                        android:drawableTop="@android:drawable/ic_menu_share"
                         android:drawablePadding="10dp"
-                        android:text="Map"
+                        android:text="Share"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:id="@+id/share" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/phone"
+                        android:drawableTop="@android:drawable/ic_menu_my_calendar"
                         android:drawablePadding="10dp"
-                        android:text="Map"
+                        android:text="Calendar"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:id="@+id/calendar" />
                 </LinearLayout>
             </RelativeLayout>
 

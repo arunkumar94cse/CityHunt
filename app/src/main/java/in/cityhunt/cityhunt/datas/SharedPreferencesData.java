@@ -3,15 +3,18 @@ package in.cityhunt.cityhunt.datas;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SharedPreferencesData {
 
     private final SharedPreferences user_data;
     private static final String PREF_NAME = "CITYHUNT_DATA";
-    private static final String NAME = "NAME";
-    private static final String EMAIL = "EMAIL";
-    private static final String ID = "ID";
-    private static final String PROFILE_PIC_PATH = "PROFILE_PIC_PATH";
-    private static final String STATUS = "STATUS";
+    public static final String NAME = "NAME";
+    public static final String EMAIL = "EMAIL";
+    public static final String ID = "ID";
+    public static final String PROFILE_PIC_PATH = "PROFILE_PIC_PATH";
+    public static final String STATUS = "STATUS";
     private final SharedPreferences.Editor edit_user_data;
 
     public SharedPreferencesData(Context context) {
@@ -27,6 +30,18 @@ public class SharedPreferencesData {
         edit_user_data.putInt(ID,id);
         edit_user_data.putString(PROFILE_PIC_PATH,profilePicPath);
         edit_user_data.apply();
+    }
+    public JSONObject getLoginDetails(){
+        JSONObject data = new JSONObject();
+        try {
+            data.put(ID,user_data.getInt(ID,0));
+            data.put(NAME,user_data.getString(NAME,""));
+            data.put(EMAIL,user_data.getString(EMAIL,""));
+            data.put(PROFILE_PIC_PATH,user_data.getString(PROFILE_PIC_PATH,""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
     public boolean getLoginStatus(){
         return user_data.getBoolean(STATUS,false);

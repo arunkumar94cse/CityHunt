@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +18,15 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
+import java.util.Calendar;
 
 import in.cityhunt.cityhunt.datas.EventStorage;
 
-public class EventDetails extends AppCompatActivity {
+public class EventDetails extends AppCompatActivity implements View.OnClickListener {
 
     public static final String bitmapString = "poster_bitmap";
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,10 @@ public class EventDetails extends AppCompatActivity {
         });
         EventStorage storage = new EventStorage(this);
         Intent intent = getIntent();
+        findViewById(R.id.share).setOnClickListener(this);
+        findViewById(R.id.calendar).setOnClickListener(this);
         String id = intent.getStringExtra(CustomListAdapter.ID);
-        Cursor cursor = storage.getEvent(id);
+        cursor = storage.getEvent(id);
         cursor.moveToFirst();
         getSupportActionBar().setTitle(cursor.getString(1));
         title.setText(cursor.getString(1));
@@ -87,5 +91,35 @@ public class EventDetails extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT,cursor.getString(1)+"\n"+cursor.getString(6));
+            startActivity(sendIntent);
+        }else if (v.getId()==R.id.calendar){
+            Log.e("date",cursor.getString(14));
+            Date date1 = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            try {
+                date1 = format.parse(cursor.getString(14));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            java.util.Calendar beginTime = Calendar.getInstance();
+            beginTime.setTime(date1);
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.setType("vnd.android.cursor.item/event");
+            intent.putExtra("title", cursor.getString(1));
+            intent.putExtra("description", cursor.getString(6));
+            intent.putExtra("eventLocation",cursor.getString(4) + ", " + cursor.getString(3));
+            intent.putExtra("beginTime", beginTime.getTimeInMillis());
+            startActivity(intent);
+        }
     }
 }
