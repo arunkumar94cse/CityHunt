@@ -41,12 +41,12 @@ public class Popular extends Fragment {
             cursor.moveToNext();
         }
 
-        layout.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+    /*    layout.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getActivity(),Filters.class),1);
             }
-        });
+        }); */
 
         RecyclerView popular_list = (RecyclerView) layout.findViewById(R.id.popular_view);
         popular_list.setHasFixedSize(true);

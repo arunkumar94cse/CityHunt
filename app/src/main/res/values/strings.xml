@@ -15,4 +15,5 @@
     <string name="title_activity_events_calender">EventsCalender</string>
     <string name="title_activity_near_by">City Hunt</string>
     <string name="title_activity_category__events">Category_Events</string>
+    <string name="title_activity_particuar_event">Map</string>
 </resources>

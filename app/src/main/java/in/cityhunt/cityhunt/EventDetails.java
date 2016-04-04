@@ -53,26 +53,34 @@ public class EventDetails extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         findViewById(R.id.share).setOnClickListener(this);
         findViewById(R.id.calendar).setOnClickListener(this);
+        findViewById(R.id.map).setOnClickListener(this);
         String id = intent.getStringExtra(CustomListAdapter.ID);
         cursor = storage.getEvent(id);
         cursor.moveToFirst();
         getSupportActionBar().setTitle(cursor.getString(1));
+        assert title != null;
         title.setText(cursor.getString(1));
         ImageLoader mImageLoader = Mysingleton.getInstance(this).getImageLoader();
         mImageLoader.get(Utilities.HOME_URL + cursor.getString(16),
                 ImageLoader.getImageListener(poster, R.drawable.background, R.drawable.background));
+        assert location != null;
         location.setText(cursor.getString(4) + ", " + cursor.getString(3));
         TextView description = (TextView)findViewById(R.id.description);
+        assert description != null;
         description.setText(cursor.getString(6));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         SimpleDateFormat newformat = new SimpleDateFormat("MMM''dd", Locale.ENGLISH);
         try {
             Date dateobj = format.parse(cursor.getString(14));
             Date dateobjend = format.parse(cursor.getString(15));
-            if (newformat.format(dateobj).equalsIgnoreCase(newformat.format(dateobjend)))
+            if (newformat.format(dateobj).equalsIgnoreCase(newformat.format(dateobjend))) {
+                assert date != null;
                 date.setText(newformat.format(dateobj).toUpperCase());
-            else
+            }
+            else {
+                assert date != null;
                 date.setText(newformat.format(dateobj).toUpperCase() + " - " + newformat.format(dateobjend).toUpperCase());
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -104,7 +112,7 @@ public class EventDetails extends AppCompatActivity implements View.OnClickListe
         }else if (v.getId()==R.id.calendar){
             Log.e("date",cursor.getString(14));
             Date date1 = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",Locale.ENGLISH);
             try {
                 date1 = format.parse(cursor.getString(14));
             } catch (ParseException e) {
@@ -120,6 +128,11 @@ public class EventDetails extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("eventLocation",cursor.getString(4) + ", " + cursor.getString(3));
             intent.putExtra("beginTime", beginTime.getTimeInMillis());
             startActivity(intent);
+        }else if (v.getId()==R.id.map){
+            startActivity(new Intent(EventDetails.this,ParticuarEventActivity.class)
+            .putExtra("latitude",cursor.getDouble(12))
+            .putExtra("longitude",cursor.getDouble(13))
+            .putExtra("title",cursor.getString(1)));
         }
     }
 }
