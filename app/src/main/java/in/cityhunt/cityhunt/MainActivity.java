@@ -1,5 +1,6 @@
 package in.cityhunt.cityhunt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -99,7 +100,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        return id == R.id.search || super.onOptionsItemSelected(item);
+        if (id == R.id.add){
+            startActivity(new Intent(MainActivity.this,AddEvent.class));
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
 }
